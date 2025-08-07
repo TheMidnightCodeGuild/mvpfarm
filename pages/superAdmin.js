@@ -49,14 +49,27 @@ export default function SuperAdmin() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-black p-8">
-      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Create Center</h1>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8"
+      style={{
+        backgroundImage: 'url("/bg.png")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <h1 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 text-gray-900 bg-white/90 backdrop-blur-sm shadow-lg rounded-lg px-6 py-5">
+        Create Center
+      </h1>
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-neutral-900 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md"
+        className="bg-white/90 backdrop-blur-sm shadow-lg rounded-lg px-6 sm:px-8 pt-6 sm:pt-8 pb-8 sm:pb-10 mb-4 w-full max-w-xl"
       >
-        <div className="mb-4">
-          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="state">
+        <div className="mb-6">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="state"
+          >
             State
           </label>
           <input
@@ -66,12 +79,15 @@ export default function SuperAdmin() {
             value={form.state}
             onChange={handleChange}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
             placeholder="Enter State"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="district">
+        <div className="mb-6">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="district"
+          >
             District
           </label>
           <input
@@ -81,12 +97,15 @@ export default function SuperAdmin() {
             value={form.district}
             onChange={handleChange}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
             placeholder="Enter District"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="manager">
+        <div className="mb-6">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="manager"
+          >
             Manager
           </label>
           <input
@@ -96,12 +115,15 @@ export default function SuperAdmin() {
             value={form.manager}
             onChange={handleChange}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
             placeholder="Enter Manager Name"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="userId">
+        <div className="mb-6">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="userId"
+          >
             User ID
           </label>
           <input
@@ -111,12 +133,15 @@ export default function SuperAdmin() {
             value={form.userId}
             onChange={handleChange}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
             placeholder="Enter User ID"
           />
         </div>
         <div className="mb-6">
-          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="password">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
+          >
             Password
           </label>
           <input
@@ -126,17 +151,25 @@ export default function SuperAdmin() {
             value={form.password}
             onChange={handleChange}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
             placeholder="Enter Password"
           />
         </div>
-        {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
-        {success && <p className="text-green-500 text-xs mb-4">{success}</p>}
-        <div className="flex items-center justify-between">
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 rounded-lg">
+            <p className="text-red-600 text-sm">{error}</p>
+          </div>
+        )}
+        {success && (
+          <div className="mb-4 p-3 bg-green-50 rounded-lg">
+            <p className="text-green-600 text-sm">{success}</p>
+          </div>
+        )}
+        <div className="flex items-center justify-center">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 text-lg"
           >
             {loading ? "Creating..." : "Create Center"}
           </button>

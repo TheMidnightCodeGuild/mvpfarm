@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { collection, query, where, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+  getDoc,
+} from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useRouter } from "next/router";
 
@@ -16,14 +24,12 @@ export default function CenterDashboard() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Get userId from localStorage (set during login)
         const userId = localStorage.getItem("centerId");
         if (!userId) {
           router.push("/center");
           return;
         }
 
-        // Fetch center data
         const centersRef = collection(db, "Center");
         const q = query(centersRef, where("userId", "==", userId));
         const querySnapshot = await getDocs(q);
@@ -58,7 +64,7 @@ export default function CenterDashboard() {
       const updatedItems = { ...items, [newKey]: newValue };
       const centerRef = doc(db, "Center", centerData.id);
       await updateDoc(centerRef, { items: updatedItems });
-      
+
       setItems(updatedItems);
       setNewKey("");
       setNewValue("");
@@ -74,7 +80,7 @@ export default function CenterDashboard() {
       const updatedItems = { ...items, [key]: newValue };
       const centerRef = doc(db, "Center", centerData.id);
       await updateDoc(centerRef, { items: updatedItems });
-      
+
       setItems(updatedItems);
       setSuccess("Item updated successfully!");
       setError("");
@@ -89,7 +95,7 @@ export default function CenterDashboard() {
       delete updatedItems[key];
       const centerRef = doc(db, "Center", centerData.id);
       await updateDoc(centerRef, { items: updatedItems });
-      
+
       setItems(updatedItems);
       setSuccess("Item deleted successfully!");
       setError("");
@@ -100,84 +106,121 @@ export default function CenterDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black">
-        <p className="text-gray-700 dark:text-gray-300">Loading...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="animate-pulse text-xl text-gray-800">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-          Center Dashboard
-        </h1>
-        
+    <div
+      className="min-h-screen bg-gray-100 px-4 py-6 sm:px-6 lg:px-8"
+      style={{
+        backgroundImage: 'url("/bg.png")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-sm p-6 mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Center Dashboard
+          </h1>
+          <p className="text-gray-600">Manage your center&apos;s inventory</p>
+        </div>
+
         {/* Add New Item Form */}
-        <div className="bg-white dark:bg-neutral-900 shadow-md rounded p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Add New Item</h2>
-          <form onSubmit={handleAddItem} className="flex gap-4 items-end">
-            <div className="flex-1">
-              <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
-                Key
-              </label>
-              <input
-                type="text"
-                value={newKey}
-                onChange={(e) => setNewKey(e.target.value)}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900"
-                placeholder="Enter key"
-              />
+        <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Add New Item
+          </h2>
+          <form onSubmit={handleAddItem} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Item Name
+                </label>
+                <input
+                  type="text"
+                  value={newKey}
+                  onChange={(e) => setNewKey(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                  placeholder="Enter item name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Quantity/Value
+                </label>
+                <input
+                  type="text"
+                  value={newValue}
+                  onChange={(e) => setNewValue(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                  placeholder="Enter quantity or value"
+                />
+              </div>
             </div>
-            <div className="flex-1">
-              <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
-                Value
-              </label>
-              <input
-                type="text"
-                value={newValue}
-                onChange={(e) => setNewValue(e.target.value)}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900"
-                placeholder="Enter value"
-              />
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition"
+              >
+                Add Item
+              </button>
             </div>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Add Item
-            </button>
           </form>
         </div>
 
-        {/* Messages */}
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        {success && <p className="text-green-500 mb-4">{success}</p>}
+        {/* Status Messages */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 rounded-md">
+            <p className="text-red-700">{error}</p>
+          </div>
+        )}
+        {success && (
+          <div className="mb-6 p-4 bg-green-50 rounded-md">
+            <p className="text-green-700">{success}</p>
+          </div>
+        )}
 
         {/* Items List */}
-        <div className="bg-white dark:bg-neutral-900 shadow-md rounded p-6">
-          <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Current Items</h2>
+        <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-sm p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Current Items
+          </h2>
           {Object.keys(items).length === 0 ? (
-            <p className="text-gray-700 dark:text-gray-300">No items added yet.</p>
+            <div className="text-center py-8">
+              <p className="text-gray-500">No items have been added yet.</p>
+              <p className="text-sm text-gray-400 mt-2">
+                Add your first item using the form above.
+              </p>
+            </div>
           ) : (
             <div className="space-y-4">
               {Object.entries(items).map(([key, value]) => (
-                <div key={key} className="flex items-center gap-4 p-2 bg-gray-50 dark:bg-neutral-800 rounded">
-                  <div className="flex-1">
-                    <p className="font-semibold text-gray-700 dark:text-gray-200">{key}</p>
-                    <input
-                      type="text"
-                      value={value}
-                      onChange={(e) => handleUpdateItem(key, e.target.value)}
-                      className="mt-1 shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 dark:text-gray-900"
-                    />
+                <div
+                  key={key}
+                  className="bg-gray-50 rounded-lg p-4 transition hover:bg-gray-100"
+                >
+                  <div className="flex flex-col md:flex-row md:items-center gap-4">
+                    <div className="flex-grow">
+                      <h3 className="font-medium text-gray-900 mb-1">{key}</h3>
+                      <input
+                        type="text"
+                        value={value}
+                        onChange={(e) => handleUpdateItem(key, e.target.value)}
+                        className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      />
+                    </div>
+                    <button
+                      onClick={() => handleDeleteItem(key)}
+                      className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition"
+                    >
+                      Delete
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleDeleteItem(key)}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
-                  >
-                    Delete
-                  </button>
                 </div>
               ))}
             </div>
